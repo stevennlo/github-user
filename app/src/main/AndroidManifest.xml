@@ -9,13 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
-        <activity android:name=".ui.UserDetailActivity"></activity>
         <activity
-            android:name=".ui.ListUsersActivity"
+            android:name=".ui.UserDetailActivity"
+            android:parentActivityName=".ui.UsersActivity" />
+        <activity
+            android:name=".ui.UsersActivity"
             android:theme="@style/Theme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
