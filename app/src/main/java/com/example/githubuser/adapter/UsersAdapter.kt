@@ -1,7 +1,5 @@
 package com.example.githubuser.adapter
 
-import android.app.Activity
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,18 +8,17 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubuser.databinding.ComponentUserBinding
 import com.example.githubuser.model.User
-import com.example.githubuser.ui.UserDetailActivity
-import com.example.githubuser.ui.UserDetailActivity.Companion.EXTRA_INDEX
-import com.example.githubuser.ui.UserDetailActivity.Companion.EXTRA_USER
-import com.example.githubuser.ui.UsersActivity.Companion.REQUEST_FOR_USER_CHANGE
 import com.example.githubuser.util.AssetUtil.getDrawableId
 
-class UsersAdapter : ListAdapter<User, UsersAdapter.ViewHolder>(UserDiffCallback()) {
-    class ViewHolder(private val binding: ComponentUserBinding) :
+class UsersAdapter(private val clickListener: (User) -> Unit) :
+    ListAdapter<User, UsersAdapter.ViewHolder>(UserDiffCallback()) {
+    class ViewHolder(
+        private val binding: ComponentUserBinding,
+        private val layoutClickListener: (User) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
-            item: User,
-            position: Int
+            item: User
         ) {
             binding.apply {
                 compUserProfileSiv.apply {
@@ -32,19 +29,8 @@ class UsersAdapter : ListAdapter<User, UsersAdapter.ViewHolder>(UserDiffCallback
                 compUserLocationTv.text = item.location
                 compUserFavoriteIv.visibility = if (item.isFavorite) View.VISIBLE else View.GONE
                 compUserLayout.setOnClickListener {
-                    val intent = Intent(it.context, UserDetailActivity::class.java)
-                    intent.putExtra(EXTRA_USER, item)
-                        .putExtra(EXTRA_INDEX, position)
-                    (it.context as Activity).startActivityForResult(intent, REQUEST_FOR_USER_CHANGE)
+                    layoutClickListener.invoke(item)
                 }
-            }
-        }
-
-        companion object {
-            fun from(parent: ViewGroup): ViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ComponentUserBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding)
             }
         }
     }
@@ -52,12 +38,12 @@ class UsersAdapter : ListAdapter<User, UsersAdapter.ViewHolder>(UserDiffCallback
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ComponentUserBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(binding, clickListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = currentList[position]
-        holder.bind(item, position)
+        holder.bind(item)
     }
 }
 
