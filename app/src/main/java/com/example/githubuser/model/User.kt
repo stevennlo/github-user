@@ -1,19 +1,46 @@
 package com.example.githubuser.model
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Parcelize
 @Serializable
 data class User(
-    val username: String,
-    val name: String,
-    val avatar: String,
-    val company: String,
-    val location: String,
-    val repository: Int,
-    val follower: Int,
-    val following: Int,
-    var isFavorite: Boolean = false
-) : Parcelable
+    @SerialName("repos_url")
+    val reposUrl: String? = null,
+    @SerialName("gists_url")
+    val gistsUrl: String? = null,
+    @SerialName("following_url")
+    val followingUrl: String? = null,
+    @SerialName("starred_url")
+    val starredUrl: String? = null,
+    @SerialName("login")
+    val login: String? = null,
+    @SerialName("followers_url")
+    val followersUrl: String? = null,
+    @SerialName("type")
+    val type: String? = null,
+    @SerialName("url")
+    val url: String? = null,
+    @SerialName("subscriptions_url")
+    val subscriptionsUrl: String? = null,
+    @SerialName("score")
+    val score: Float? = null,
+    @SerialName("received_events_url")
+    val receivedEventsUrl: String? = null,
+    @SerialName("avatar_url")
+    val avatarUrl: String? = null,
+    @SerialName("events_url")
+    val eventsUrl: String? = null,
+    @SerialName("html_url")
+    val htmlUrl: String? = null,
+    @SerialName("site_admin")
+    val siteAdmin: Boolean? = null,
+    @SerialName("id")
+    val id: Int? = null,
+    @SerialName("gravatar_id")
+    val gravatarId: String? = null,
+    @SerialName("node_id")
+    val nodeId: String? = null,
+    @SerialName("organizations_url")
+    val organizationsUrl: String? = null
+)

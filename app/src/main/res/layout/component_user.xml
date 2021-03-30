@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:background="@color/lightPrimaryColor"
         android:paddingStart="24dp"
-        android:paddingTop="16dp"
+        android:paddingTop="8dp"
         android:paddingEnd="16dp"
-        android:paddingBottom="16dp">
+        android:paddingBottom="8dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/comp_user_profile_siv"
@@ -27,15 +27,6 @@
             app:shapeAppearanceOverlay="@style/ShapeAppearance.ShapeableImageView.Circular"
             tools:src="@drawable/user1" />
 
-        <ImageView
-            android:id="@+id/comp_user_favorite_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/favorite_icon"
-            android:src="@drawable/ic_heart_red_24dp"
-            app:layout_constraintBottom_toBottomOf="@id/comp_user_profile_siv"
-            app:layout_constraintEnd_toEndOf="@id/comp_user_profile_siv" />
-
         <TextView
             android:id="@+id/comp_user_name_tv"
             android:layout_width="wrap_content"
@@ -45,33 +36,23 @@
             android:textColor="?attr/colorOnSurface"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/comp_user_location_iv"
+            app:layout_constraintBottom_toTopOf="@id/comp_user_role_tv"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Budi Oktaviyan" />
+            tools:text="JakeWharton" />
 
-        <ImageView
-            android:id="@+id/comp_user_location_iv"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+        <TextView
+            android:id="@+id/comp_user_role_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/location_icon"
             android:src="@drawable/ic_location_on_black_24dp"
+            android:textAlignment="center"
+            android:textColor="?attr/secondaryColorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/comp_user_name_tv"
-            app:tint="?attr/subtitleTextColor" />
-
-        <TextView
-            android:id="@+id/comp_user_location_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAlignment="center"
-            android:textColor="?attr/subtitleTextColor"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/comp_user_location_iv"
-            app:layout_constraintStart_toEndOf="@+id/comp_user_location_iv"
-            tools:text="Jakarta, Indonesia" />
+            tools:text="User" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

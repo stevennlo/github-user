@@ -11,8 +11,11 @@
         android:label="fragment_user_detail"
         tools:layout="@layout/fragment_user_detail">
         <argument
-            android:name="user"
-            app:argType="com.example.githubuser.model.User" />
+            android:name="username"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_userDetailFragment_to_relationAndRepoFragment"
+            app:destination="@id/relationAndRepoFragment" />
     </fragment>
     <fragment
         android:id="@+id/usersFragment"
@@ -22,5 +25,21 @@
         <action
             android:id="@+id/action_usersFragment_to_userDetailFragment"
             app:destination="@id/userDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/relationAndRepoFragment"
+        android:name="com.example.githubuser.ui.RelationAndRepoFragment"
+        android:label="fragment_relation_and_repo"
+        tools:layout="@layout/fragment_relation_and_repo">
+        <action
+            android:id="@+id/action_relationAndRepoFragment_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" />
+        <argument
+            android:name="username"
+            app:argType="string" />
+        <argument
+            android:name="tab"
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
 </navigation>

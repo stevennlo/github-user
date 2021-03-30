@@ -1,20 +1,20 @@
 package com.example.githubuser.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.githubuser.R
 import com.example.githubuser.databinding.ComponentUserBinding
 import com.example.githubuser.model.User
-import com.example.githubuser.util.AssetUtil.getDrawableId
+import com.example.githubuser.util.ImageUtil
 
-class UsersAdapter(private val clickListener: (User) -> Unit) :
+class UsersAdapter(private val clickListener: (String) -> Unit) :
     ListAdapter<User, UsersAdapter.ViewHolder>(UserDiffCallback()) {
     class ViewHolder(
         private val binding: ComponentUserBinding,
-        private val layoutClickListener: (User) -> Unit
+        private val layoutClickListener: (String) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
@@ -22,15 +22,20 @@ class UsersAdapter(private val clickListener: (User) -> Unit) :
         ) {
             binding.apply {
                 compUserProfileSiv.apply {
-                    val profileId = getDrawableId(this.context, item.avatar)
-                    setImageResource(profileId)
+                    ImageUtil.loadImage(
+                        this.context,
+                        item.avatarUrl,
+                        R.drawable.ic_person_black_24dp,
+                        compUserProfileSiv
+                    )
                 }
-                compUserNameTv.text = item.name
-                compUserLocationTv.text = item.location
-                compUserFavoriteIv.visibility = if (item.isFavorite) View.VISIBLE else View.GONE
+                compUserNameTv.text = item.login
                 compUserLayout.setOnClickListener {
-                    layoutClickListener.invoke(item)
+                    item.login?.apply {
+                        layoutClickListener.invoke(item.login)
+                    }
                 }
+                compUserRoleTv.text = item.type
             }
         }
     }
@@ -53,6 +58,6 @@ class UserDiffCallback : DiffUtil.ItemCallback<User>() {
     }
 
     override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
-        return oldItem.username == newItem.username
+        return oldItem.login == newItem.login
     }
 }

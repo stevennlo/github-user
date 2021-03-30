@@ -7,7 +7,6 @@
     <color name="darkPrimaryColor">#1976D2</color>
     <color name="textIconColor">#FFFFFF</color>
     <color name="accentColor">#03A9F4</color>
-    <color name="primaryText">#212121</color>
-    <color name="secondaryText">#757575</color>
-    <color name="dividerColor">#BDBDBD</color>
+    <color name="secondaryTextOnSurface">#757575</color>
+    <color name="secondaryTextOnPrimary">#DFDFDF</color>
 </resources>

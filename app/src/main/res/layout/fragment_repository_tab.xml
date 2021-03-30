@@ -4,9 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    tools:context=".ui.UsersFragment">
+    tools:context=".ui.RepositoryTabFragment">
+
+    <ProgressBar
+        android:id="@+id/repository_tab_loading_pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/elevation_level_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/message_image_iv"
@@ -15,6 +23,7 @@
         android:alpha="0.6"
         android:contentDescription="@string/let_search_desc"
         android:src="@drawable/ic_search_welcome"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/message_title_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,6 +40,7 @@
         android:textColor="?attr/colorOnSurface"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/message_subtitle_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,13 +54,14 @@
         android:textAlignment="center"
         android:textColor="?attr/secondaryColorOnSurface"
         android:textSize="24sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/message_title_tv" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/users_list_rv"
+        android:id="@+id/repository_tab_list_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="@dimen/elevation_level_1"

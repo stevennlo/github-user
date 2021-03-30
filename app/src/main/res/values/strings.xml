@@ -1,13 +1,25 @@
 <resources>
     <string name="app_name">GitHub User</string>
     <string name="location_icon">Location Icon</string>
-    <string name="favorite_icon">Favorite Icon</string>
-    <string name="favorite">Favorite</string>
-    <string name="repositories">repositories</string>
+    <string name="repositories">repos</string>
     <string name="followers">followers</string>
     <string name="about">About</string>
     <string name="following">following</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="company_icon">Company Icon</string>
+    <string name="repositories_tab">Repos</string>
+    <string name="followers_tab">Followers</string>
+    <string name="following_tab">Following</string>
+    <string name="search_title">Search</string>
+    <string name="search_hint">Search a keyword</string>
+    <string name="default_string_text">-</string>
+    <string name="let_search_desc">Let\'s Search</string>
+    <string name="welcome_text">Welcome!</string>
+    <string name="try_to_search_someone_text">Try to search someone.</string>
+    <string name="no_one_here">No one here!</string>
+    <string name="try_to_search_another_text">Try to search another.</string>
+    <string name="by_text">by</string>
+    <string name="star_icon">Star Icon</string>
+    <string name="fork_icon">Fork Icon</string>
+    <string name="unknown_error_message">Something went wrong. Please try again later.</string>
+    <string name="no_repo_yet">No repo yet!</string>
 </resources>
