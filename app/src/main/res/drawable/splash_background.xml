@@ -6,5 +6,5 @@
     </item>
     <item
         android:drawable="@drawable/ic_github"
-        android:gravity="center"/>
+        android:gravity="center" />
 </layer-list>

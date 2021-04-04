@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:elevation="@dimen/elevation_level_1"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:visibility="gone"
+    tools:ignore="Overdraw"
+    tools:visibility="visible">
+
+    <ImageView
+        android:id="@+id/main_message_image_iv"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:alpha="0.6"
+        android:contentDescription="@string/image_about_message"
+        android:src="@drawable/ic_search_welcome" />
+
+    <TextView
+        android:id="@+id/main_message_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        tools:text="@string/welcome_text" />
+
+    <TextView
+        android:id="@+id/main_message_subtitle_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="?attr/secondaryColorOnSurface"
+        android:textSize="24sp"
+        tools:text="@string/try_to_search_someone_text" />
+</LinearLayout>

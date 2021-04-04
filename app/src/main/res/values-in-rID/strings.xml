@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GitHub User</string>
+    <string name="location_icon">Ikon Lokasi</string>
+    <string name="repositories">repositori</string>
+    <string name="followers">pengikut</string>
+    <string name="about">Tentang</string>
+    <string name="following">mengikuti</string>
+    <string name="company_icon">Ikon Perusahaan</string>
+    <string name="repositories_tab">Repo</string>
+    <string name="followers_tab">Pengikut</string>
+    <string name="following_tab">Mengikuti</string>
+    <string name="search_title">Cari</string>
+    <string name="search_hint">Masukkan kata kunci</string>
+    <string name="default_string_text">-</string>
+    <string name="image_about_message">Gambar pesan</string>
+    <string name="welcome_text">Selamat Datang!</string>
+    <string name="try_to_search_someone_text">Ayo cari seseorang.</string>
+    <string name="no_one_here">Tidak ada siapapun!</string>
+    <string name="try_to_search_another_text">Cari yang lain, yuk.</string>
+    <string name="by_text">oleh</string>
+    <string name="star_icon">Ikon Bintang</string>
+    <string name="fork_icon">Ikon Cabang</string>
+    <string name="unknown_error_message">Ada sesuatu yang salah. Mohon coba lagi nanti.</string>
+    <string name="no_repo_yet">Belum ada repository!</string>
+</resources>
