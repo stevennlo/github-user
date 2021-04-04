@@ -1,15 +1,12 @@
 package com.example.githubuser.ui
 
 import android.app.SearchManager
-import android.content.Context
 import android.content.Context.SEARCH_SERVICE
-import android.graphics.drawable.Drawable
-import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -19,58 +16,61 @@ import com.example.githubuser.adapter.UsersAdapter
 import com.example.githubuser.databinding.FragmentUsersBinding
 import com.example.githubuser.service.Status
 import com.example.githubuser.util.ImageUtil.getDrawable
+import com.example.githubuser.util.MessageType
+import com.example.githubuser.util.getColorFromAttr
 import com.example.githubuser.viewmodel.UsersViewModel
 
-class UsersFragment : Fragment() {
-    private lateinit var mContext: Context
-    private var _binding: FragmentUsersBinding? = null
-    private val binding get() = _binding as FragmentUsersBinding
+class UsersFragment : BaseFragment<FragmentUsersBinding>(FragmentUsersBinding::inflate) {
     private val usersAdapter by lazy {
         UsersAdapter(this::toUserDetail)
     }
     private val viewModel: UsersViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        mContext = requireContext()
-        _binding = FragmentUsersBinding.inflate(inflater, container, false)
+    override fun runOnCreateView() {
+        super.runOnCreateView()
+        showResult(
+            MessageType.WELCOME,
+            getString(R.string.welcome_text),
+            getString(R.string.try_to_search_someone_text)
+        )
         binding.apply {
+            usersRefreshSrl.setColorSchemeColors(mContext.getColorFromAttr(R.attr.colorPrimary))
+            usersRefreshSrl.setOnRefreshListener {
+                viewModel.keyword.value?.let {
+                    searchUser(it)
+                }
+                if (viewModel.keyword.value === null) usersRefreshSrl.isRefreshing = false
+            }
             viewModel.users.observe(viewLifecycleOwner, { response ->
                 when {
                     response.status == Status.StatusType.FAILED -> {
                         showResult(
-                            MainActivity.MessageType.ERROR,
+                            MessageType.ERROR,
                             subtitleMessage = response.message
                                 ?: getString(R.string.unknown_error_message),
                         )
                     }
                     (response.data?.count() ?: 0) == 0 -> {
                         showResult(
-                            MainActivity.MessageType.NOT_FOUND,
+                            MessageType.NOT_FOUND,
                             getString(R.string.no_one_here),
                             getString(R.string.try_to_search_another_text)
                         )
                     }
                     else -> {
-                        showResult(MainActivity.MessageType.EXISTS)
+                        showResult(MessageType.EXISTS)
                     }
                 }
+                usersRefreshSrl.isRefreshing = false
                 usersAdapter.submitList(response.data)
-                (mContext as MainActivity).showProgressBar(false)
             })
             usersListRv.apply {
                 adapter = usersAdapter
                 val itemDecoration =
                     DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL).apply {
-                        setDrawable(
-                            ResourcesCompat.getDrawable(
-                                resources,
-                                R.drawable.space_item_decoration,
-                                null
-                            ) as Drawable
-                        )
+                        getDrawable(mContext, R.drawable.space_item_decoration)?.let {
+                            setDrawable(it)
+                        }
                     }
                 addItemDecoration(itemDecoration)
                 layoutManager =
@@ -78,7 +78,6 @@ class UsersFragment : Fragment() {
             }
         }
         setHasOptionsMenu(true)
-        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -94,6 +93,7 @@ class UsersFragment : Fragment() {
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(keyword: String): Boolean {
                     searchUser(keyword)
+                    showResult(MessageType.LOAD)
                     return false
                 }
 
@@ -105,14 +105,7 @@ class UsersFragment : Fragment() {
     }
 
     private fun searchUser(keyword: String) {
-        (mContext as MainActivity).showProgressBar(true)
         viewModel.searchUser(keyword)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        (mContext as MainActivity).showProgressBar(false)
-        _binding = null
     }
 
     private fun toUserDetail(username: String) {
@@ -121,53 +114,7 @@ class UsersFragment : Fragment() {
         findNavController().navigate(toUserDetailFragment)
     }
 
-    private fun showResult(
-        type: MainActivity.MessageType,
-        titleMessage: String? = null,
-        subtitleMessage: String? = null
-    ) {
-        binding.apply {
-            when (type) {
-                MainActivity.MessageType.EXISTS -> {
-                    usersListRv.visibility = View.VISIBLE
-                    messageTitleTv.visibility = View.GONE
-                    messageSubtitleTv.visibility = View.GONE
-                    messageImageIv.visibility = View.GONE
-                }
-                MainActivity.MessageType.NOT_FOUND -> {
-                    messageTitleTv.text = titleMessage
-                    messageSubtitleTv.text = subtitleMessage
-                    messageImageIv.setImageDrawable(
-                        getDrawable(
-                            mContext,
-                            R.drawable.ic_not_found
-                        )
-                    )
-                    usersListRv.visibility = View.GONE
-                    messageTitleTv.visibility =
-                        if (titleMessage !== null) View.VISIBLE else View.GONE
-                    messageSubtitleTv.visibility =
-                        if (subtitleMessage !== null) View.VISIBLE else View.GONE
-                    messageImageIv.visibility = View.VISIBLE
-                }
-                MainActivity.MessageType.ERROR -> {
-                    messageTitleTv.text =
-                        titleMessage
-                    messageSubtitleTv.text = subtitleMessage
-                    messageImageIv.setImageDrawable(
-                        getDrawable(
-                            mContext,
-                            R.drawable.ic_something_wrong
-                        )
-                    )
-                    usersListRv.visibility = View.GONE
-                    messageTitleTv.visibility =
-                        if (titleMessage !== null) View.VISIBLE else View.GONE
-                    messageSubtitleTv.visibility =
-                        if (subtitleMessage !== null) View.VISIBLE else View.GONE
-                    messageImageIv.visibility = View.VISIBLE
-                }
-            }
-        }
+    override fun getRootViewGroup(): ViewGroup {
+        return binding.usersRootCl
     }
 }

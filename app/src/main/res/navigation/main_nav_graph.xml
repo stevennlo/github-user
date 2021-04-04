@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/userDetailFragment"
         android:name="com.example.githubuser.ui.UserDetailFragment"
-        android:label="fragment_user_detail"
         tools:layout="@layout/fragment_user_detail">
         <argument
             android:name="username"
@@ -29,7 +28,6 @@
     <fragment
         android:id="@+id/relationAndRepoFragment"
         android:name="com.example.githubuser.ui.RelationAndRepoFragment"
-        android:label="fragment_relation_and_repo"
         tools:layout="@layout/fragment_relation_and_repo">
         <action
             android:id="@+id/action_relationAndRepoFragment_to_userDetailFragment"

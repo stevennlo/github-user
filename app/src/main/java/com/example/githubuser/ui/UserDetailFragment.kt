@@ -1,53 +1,52 @@
 package com.example.githubuser.ui
 
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.githubuser.R
 import com.example.githubuser.databinding.FragmentUserDetailBinding
 import com.example.githubuser.service.Status
-import com.example.githubuser.util.ImageUtil.getDrawable
 import com.example.githubuser.util.ImageUtil.loadImage
+import com.example.githubuser.util.MessageType
 import com.example.githubuser.util.NumberUtil
+import com.example.githubuser.util.getColorFromAttr
 import com.example.githubuser.viewmodel.UserDetailViewModel
 
-class UserDetailFragment : Fragment(), View.OnClickListener {
+class UserDetailFragment :
+    BaseFragment<FragmentUserDetailBinding>(FragmentUserDetailBinding::inflate),
+    View.OnClickListener {
     private lateinit var username: String
-    private lateinit var mContext: Context
-    private lateinit var mMainActivity: MainActivity
     private val args: UserDetailFragmentArgs by navArgs()
-    private var _binding: FragmentUserDetailBinding? = null
-    private val binding get() = _binding as FragmentUserDetailBinding
     private val viewModel: UserDetailViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        (mContext as AppCompatActivity).supportActionBar?.apply {
-            title = username
-        }
-        _binding = FragmentUserDetailBinding.inflate(inflater, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        loadData()
+    }
 
+    override fun runOnCreateView() {
+        super.runOnCreateView()
+        mActivity.supportActionBar?.title = username
         binding.apply {
+            userDetailRefreshSrl.setColorSchemeColors(mContext.getColorFromAttr(R.attr.colorPrimary))
+            userDetailRefreshSrl.setOnRefreshListener {
+                loadData()
+            }
             userDetailRepositoryCv.setOnClickListener(this@UserDetailFragment)
             userDetailFollowersCv.setOnClickListener(this@UserDetailFragment)
             userDetailFollowingCv.setOnClickListener(this@UserDetailFragment)
             viewModel.user.observe(viewLifecycleOwner, { response ->
                 if (response.status == Status.StatusType.FAILED) {
                     showResult(
-                        MainActivity.MessageType.ERROR,
+                        MessageType.ERROR,
                         subtitleMessage = response.message
                             ?: getString(R.string.unknown_error_message),
                     )
                 } else {
+                    showResult(MessageType.EXISTS)
                     val user = response.data
                     user?.avatarUrl.apply {
                         loadImage(
@@ -64,31 +63,14 @@ class UserDetailFragment : Fragment(), View.OnClickListener {
                     userDetailCompanyTv.text = user?.company ?: "-"
                     userDetailLocationTv.text = user?.location ?: "-"
                 }
-                mMainActivity.showProgressBar(false)
+                userDetailRefreshSrl.isRefreshing = false
             })
         }
-
-
-        return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mContext = requireContext()
-        mMainActivity = mContext as MainActivity
-        loadData()
     }
 
     private fun loadData() {
         username = args.username
         viewModel.getUserDetail(username)
-        mMainActivity.showProgressBar(true)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        mMainActivity.showProgressBar(false)
-        _binding = null
     }
 
     private fun toRelationAndRepo(username: String, tab: Int) {
@@ -108,37 +90,7 @@ class UserDetailFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun showResult(
-        type: MainActivity.MessageType,
-        titleMessage: String? = null,
-        subtitleMessage: String? = null
-    ) {
-        binding.apply {
-            when (type) {
-                MainActivity.MessageType.EXISTS -> {
-                    userDetailContainerCl.visibility = View.VISIBLE
-                    messageTitleTv.visibility = View.GONE
-                    messageSubtitleTv.visibility = View.GONE
-                    messageImageIv.visibility = View.GONE
-                }
-                MainActivity.MessageType.ERROR -> {
-                    messageTitleTv.text =
-                        titleMessage
-                    messageSubtitleTv.text = subtitleMessage
-                    messageImageIv.setImageDrawable(
-                        getDrawable(
-                            mContext,
-                            R.drawable.ic_something_wrong
-                        )
-                    )
-                    userDetailContainerCl.visibility = View.GONE
-                    messageTitleTv.visibility =
-                        if (titleMessage !== null) View.VISIBLE else View.GONE
-                    messageSubtitleTv.visibility =
-                        if (subtitleMessage !== null) View.VISIBLE else View.GONE
-                    messageImageIv.visibility = View.VISIBLE
-                }
-            }
-        }
+    override fun getRootViewGroup(): ViewGroup {
+        return binding.userDetailRootCl
     }
 }

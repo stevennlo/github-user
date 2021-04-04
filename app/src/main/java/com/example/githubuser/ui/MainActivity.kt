@@ -1,7 +1,6 @@
 package com.example.githubuser.ui
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -16,10 +15,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-
-    enum class MessageType {
-        EXISTS, NOT_FOUND, ERROR
-    }
 
     private val destinationChangedListener =
         NavController.OnDestinationChangedListener { _, destination, _ ->
@@ -56,15 +51,5 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
-    }
-
-    fun showProgressBar(isVisible: Boolean) {
-        if (isVisible) {
-            binding.navHostFragment.visibility = View.GONE
-            binding.mainLoadingPb.visibility = View.VISIBLE
-        } else {
-            binding.navHostFragment.visibility = View.VISIBLE
-            binding.mainLoadingPb.visibility = View.GONE
-        }
     }
 }

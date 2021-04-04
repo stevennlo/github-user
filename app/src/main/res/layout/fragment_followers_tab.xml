@@ -1,77 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/followers_tab_refresh_srl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
     tools:context=".ui.FollowersTabFragment">
 
-    <ProgressBar
-        android:id="@+id/followers_tab_loading_pb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="@dimen/elevation_level_1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/message_image_iv"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:alpha="0.6"
-        android:contentDescription="@string/let_search_desc"
-        android:src="@drawable/ic_search_welcome"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/message_title_tv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <TextView
-        android:id="@+id/message_title_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/welcome_text"
-        android:textAlignment="center"
-        android:textColor="?attr/colorOnSurface"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/message_subtitle_tv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/message_image_iv" />
-
-    <TextView
-        android:id="@+id/message_subtitle_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/try_to_search_someone_text"
-        android:textAlignment="center"
-        android:textColor="?attr/secondaryColorOnSurface"
-        android:textSize="24sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/message_title_tv" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/followers_tab_list_rv"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/followers_tab_root_cl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="@dimen/elevation_level_1"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/followers_tab_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="@dimen/elevation_level_1"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

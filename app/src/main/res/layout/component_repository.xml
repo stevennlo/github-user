@@ -60,7 +60,7 @@
             tools:text="octocat" />
 
         <ImageView
-            android:id="@+id/comp_respitory_stars_iv"
+            android:id="@+id/comp_repository_stars_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
@@ -76,18 +76,18 @@
             android:layout_marginStart="2dp"
             android:textColor="?attr/colorOnSurface"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/comp_respitory_stars_iv"
-            app:layout_constraintStart_toEndOf="@id/comp_respitory_stars_iv"
+            app:layout_constraintBottom_toBottomOf="@id/comp_repository_stars_iv"
+            app:layout_constraintStart_toEndOf="@id/comp_repository_stars_iv"
             tools:text="41" />
 
         <ImageView
-            android:id="@+id/comp_respitory_forks_iv"
+            android:id="@+id/comp_repository_forks_iv"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="2dp"
             android:contentDescription="@string/fork_icon"
             android:src="@drawable/ic_edit_black_24dp"
-            app:layout_constraintBottom_toBottomOf="@id/comp_respitory_stars_iv"
+            app:layout_constraintBottom_toBottomOf="@id/comp_repository_stars_iv"
             app:layout_constraintEnd_toStartOf="@id/comp_repository_forks_tv" />
 
         <TextView
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:textColor="?attr/colorOnSurface"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/comp_respitory_forks_iv"
+            app:layout_constraintBottom_toBottomOf="@id/comp_repository_forks_iv"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="41" />
     </androidx.constraintlayout.widget.ConstraintLayout>

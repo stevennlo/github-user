@@ -12,7 +12,7 @@
     <string name="search_title">Search</string>
     <string name="search_hint">Search a keyword</string>
     <string name="default_string_text">-</string>
-    <string name="let_search_desc">Let\'s Search</string>
+    <string name="image_about_message">Message Image</string>
     <string name="welcome_text">Welcome!</string>
     <string name="try_to_search_someone_text">Try to search someone.</string>
     <string name="no_one_here">No one here!</string>

@@ -7,7 +7,6 @@ import com.example.githubuser.model.UserDetail
 import com.example.githubuser.util.BASE_GITHUB_API_URL
 import com.example.githubuser.util.GITHUB_API_ACCESS_TOKEN
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -22,7 +21,6 @@ import retrofit2.http.Query
 
 interface GitHubApiService {
     companion object {
-        @ExperimentalSerializationApi
         fun getService(): GitHubApiService {
             val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             val okHttp = OkHttpClient.Builder()

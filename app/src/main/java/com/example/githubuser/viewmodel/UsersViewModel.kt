@@ -14,11 +14,14 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class UsersViewModel : ViewModel() {
+    private var _keyword = MutableLiveData<String>()
     private var _users = MutableLiveData<Status<List<User>>>()
+    val keyword: LiveData<String> get() = _keyword
     val users: LiveData<Status<List<User>>> get() = _users
 
     fun searchUser(keyword: String) {
         viewModelScope.launch {
+            _keyword.postValue(keyword)
             val call = GitHubApiService.getService().getSearchUsers(keyword)
             call.enqueue(object : Callback<ResponseSearchUsers> {
                 override fun onResponse(
