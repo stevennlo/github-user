@@ -2,19 +2,16 @@ package com.example.githubuser.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.githubuser.R
 import com.example.githubuser.databinding.ActivityMainBinding
+import com.example.githubuser.util.setupWithNavController
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
-    private lateinit var appBarConfiguration: AppBarConfiguration
+    private var currentNavController: LiveData<NavController>? = null
 
     private val destinationChangedListener =
         NavController.OnDestinationChangedListener { _, destination, _ ->
@@ -31,25 +28,42 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        navController =
-            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        setupBottomNavigationBar()
+    }
+
+    private fun setupBottomNavigationBar() {
+        val navGraphIds =
+            listOf(R.navigation.users_nav, R.navigation.favorite_nav, R.navigation.settings_nav)
+
+        val controller = binding.mainBottomNavBnv.setupWithNavController(
+            navGraphIds = navGraphIds,
+            fragmentManager = supportFragmentManager,
+            containerId = R.id.nav_host_fragment,
+            intent = intent
+        )
+
+        controller.observe(this, { navController ->
+            setupActionBarWithNavController(navController)
+        })
+        currentNavController = controller
     }
 
     override fun onResume() {
         super.onResume()
-        navController.addOnDestinationChangedListener(destinationChangedListener)
+        currentNavController?.value?.apply {
+            addOnDestinationChangedListener(destinationChangedListener)
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        navController.removeOnDestinationChangedListener(destinationChangedListener)
+        currentNavController?.value?.apply {
+            removeOnDestinationChangedListener(destinationChangedListener)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+        return currentNavController?.value?.navigateUp() ?: false
     }
 }

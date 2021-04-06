@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/repository_tab_refresh_srl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.RepositoryTabFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/repository_tab_root_cl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/repository_tab_list_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="@dimen/elevation_level_1"

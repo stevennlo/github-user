@@ -2,18 +2,15 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/user_detail_refresh_srl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.UserDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/user_detail_root_cl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ScrollView
-            android:id="@+id/user_detail_container_cl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?attr/colorSurface">
@@ -31,7 +28,6 @@
                     app:layout_constraintGuide_begin="156dp" />
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/user_detail_profile_siv"
                     android:layout_width="224dp"
                     android:layout_height="224dp"
                     android:background="?attr/colorOnPrimary"
@@ -92,7 +88,6 @@
                             android:padding="8dp">
 
                             <TextView
-                                android:id="@+id/user_detail_repository_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/default_string_text"
@@ -133,7 +128,6 @@
                             android:padding="8dp">
 
                             <TextView
-                                android:id="@+id/user_detail_followers_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/default_string_text"
@@ -174,7 +168,6 @@
                             android:padding="8dp">
 
                             <TextView
-                                android:id="@+id/user_detail_following_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/default_string_text"
@@ -246,7 +239,6 @@
                         app:layout_constraintTop_toBottomOf="@id/user_detail_company_tv" />
 
                     <TextView
-                        android:id="@+id/user_detail_location_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
