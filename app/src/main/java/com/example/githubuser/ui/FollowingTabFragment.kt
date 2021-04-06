@@ -12,7 +12,6 @@ import com.example.githubuser.databinding.FragmentFollowingTabBinding
 import com.example.githubuser.service.Status
 import com.example.githubuser.util.ImageUtil.getDrawable
 import com.example.githubuser.util.MessageType
-import com.example.githubuser.util.getColorFromAttr
 import com.example.githubuser.viewmodel.FollowingTabViewModel
 
 class FollowingTabFragment(private val username: String) :
@@ -26,7 +25,6 @@ class FollowingTabFragment(private val username: String) :
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            followingTabRefreshSrl.setColorSchemeColors(mContext.getColorFromAttr(R.attr.colorPrimary))
             followingTabRefreshSrl.setOnRefreshListener {
                 loadData()
             }

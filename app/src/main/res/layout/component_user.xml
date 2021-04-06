@@ -16,6 +16,7 @@
         android:paddingBottom="8dp">
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/comp_user_profile_siv"
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:padding="2dp"

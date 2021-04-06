@@ -9,6 +9,7 @@ import com.example.githubuser.R
 import com.example.githubuser.databinding.ActivityMainBinding
 import com.example.githubuser.util.setupWithNavController
 
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var currentNavController: LiveData<NavController>? = null

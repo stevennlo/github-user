@@ -20,6 +20,7 @@
         app:tabTextColor="@color/secondaryTextOnPrimary" />
 
     <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/relation_and_repo_content_vp2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipChildren="false"

@@ -12,7 +12,6 @@ import com.example.githubuser.service.Status
 import com.example.githubuser.util.ImageUtil.loadImage
 import com.example.githubuser.util.MessageType
 import com.example.githubuser.util.NumberUtil
-import com.example.githubuser.util.getColorFromAttr
 import com.example.githubuser.viewmodel.UserDetailViewModel
 
 class UserDetailFragment :
@@ -31,7 +30,6 @@ class UserDetailFragment :
         super.runOnCreateView()
         mActivity.supportActionBar?.title = username
         binding.apply {
-            userDetailRefreshSrl.setColorSchemeColors(mContext.getColorFromAttr(R.attr.colorPrimary))
             userDetailRefreshSrl.setOnRefreshListener {
                 loadData()
             }
