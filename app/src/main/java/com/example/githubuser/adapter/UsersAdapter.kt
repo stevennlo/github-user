@@ -2,6 +2,7 @@ package com.example.githubuser.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,11 +11,15 @@ import com.example.githubuser.databinding.ComponentUserBinding
 import com.example.githubuser.model.User
 import com.example.githubuser.util.ImageUtil
 
-class UsersAdapter(private val clickListener: (String) -> Unit) :
+class UsersAdapter(
+    private val clickListener: (String) -> Unit,
+    private val favoriteChangeListener: (String, ImageView) -> Unit
+) :
     ListAdapter<User, UsersAdapter.ViewHolder>(UserDiffCallback()) {
     class ViewHolder(
         private val binding: ComponentUserBinding,
-        private val layoutClickListener: (String) -> Unit
+        private val layoutClickListener: (String) -> Unit,
+        private val favoriteChangeListener: (String, ImageView) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
@@ -29,13 +34,12 @@ class UsersAdapter(private val clickListener: (String) -> Unit) :
                         compUserProfileSiv
                     )
                 }
-                compUserNameTv.text = item.login
+                compUserNameTv.text = item.username
                 root.setOnClickListener {
-                    item.login?.apply {
-                        layoutClickListener.invoke(item.login)
-                    }
+                    layoutClickListener.invoke(item.username)
                 }
                 compUserRoleTv.text = item.type
+                favoriteChangeListener.invoke(item.username, compUserFavoriteIv)
             }
         }
     }
@@ -43,7 +47,7 @@ class UsersAdapter(private val clickListener: (String) -> Unit) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ComponentUserBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder(binding, clickListener)
+        return ViewHolder(binding, clickListener, favoriteChangeListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -58,6 +62,6 @@ class UserDiffCallback : DiffUtil.ItemCallback<User>() {
     }
 
     override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
-        return oldItem.login == newItem.login
+        return oldItem.username == newItem.username
     }
 }

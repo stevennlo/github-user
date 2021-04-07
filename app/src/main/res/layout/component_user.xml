@@ -26,6 +26,15 @@
             app:shapeAppearanceOverlay="@style/ShapeAppearance.ShapeableImageView.Circular"
             tools:src="@drawable/user1" />
 
+        <ImageView
+            android:id="@+id/comp_user_favorite_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/favorite_icon"
+            android:src="@drawable/ic_favorite_red_24dp"
+            app:layout_constraintBottom_toBottomOf="@id/comp_user_profile_siv"
+            app:layout_constraintEnd_toEndOf="@id/comp_user_profile_siv" />
+
         <TextView
             android:id="@+id/comp_user_name_tv"
             android:layout_width="wrap_content"

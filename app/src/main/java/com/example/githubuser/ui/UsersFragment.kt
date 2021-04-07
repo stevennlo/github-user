@@ -5,8 +5,10 @@ import android.content.Context.SEARCH_SERVICE
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -17,12 +19,11 @@ import com.example.githubuser.databinding.FragmentUsersBinding
 import com.example.githubuser.service.Status
 import com.example.githubuser.util.ImageUtil.getDrawable
 import com.example.githubuser.util.MessageType
-import com.example.githubuser.util.getColorFromAttr
 import com.example.githubuser.viewmodel.UsersViewModel
 
 class UsersFragment : BaseFragment<FragmentUsersBinding>(FragmentUsersBinding::inflate) {
     private val usersAdapter by lazy {
-        UsersAdapter(this::toUserDetail)
+        UsersAdapter(this::toUserDetail, this::isFavoriteUser)
     }
     private val viewModel: UsersViewModel by viewModels()
 
@@ -111,6 +112,13 @@ class UsersFragment : BaseFragment<FragmentUsersBinding>(FragmentUsersBinding::i
         val toUserDetailFragment =
             UsersFragmentDirections.actionUsersFragmentToUserDetailFragment(username)
         findNavController().navigate(toUserDetailFragment)
+    }
+
+    private fun isFavoriteUser(username: String, favoriteIcon: ImageView) {
+        viewModel.getIsFavorite(mContext, username).observe(viewLifecycleOwner, {
+            val isFavorite = it != null
+            favoriteIcon.isVisible = isFavorite
+        })
     }
 
     override fun getRootViewGroup(): ViewGroup {

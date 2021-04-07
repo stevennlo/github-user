@@ -16,6 +16,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     override fun runOnCreateView() {
         super.runOnCreateView()
         showResult(MessageType.EXISTS)
+        viewModel.init(mContext)
         binding.apply {
             settingsListRv.adapter = settingsAdapter
             viewModel.settings.observe(viewLifecycleOwner, {
@@ -25,7 +26,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     }
 
     private fun changeSetting(key: String, value: Boolean) {
-        viewModel.changeSetting(key, value)
+        viewModel.changeSetting(mContext, key, value)
     }
 
     override fun getRootViewGroup(): ViewGroup {

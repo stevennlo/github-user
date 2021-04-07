@@ -1,10 +1,13 @@
 package com.example.githubuser.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.githubuser.model.User
 import com.example.githubuser.model.UserDetail
+import com.example.githubuser.service.DatabaseService
 import com.example.githubuser.service.GitHubApiService.Companion.getService
 import com.example.githubuser.service.Status
 import kotlinx.coroutines.launch
@@ -37,4 +40,26 @@ class UserDetailViewModel : ViewModel() {
             })
         }
     }
+
+    fun setFavorite(context: Context, isFavorite: Boolean) {
+        viewModelScope.launch {
+            user.value?.data?.let { it ->
+                val user =
+                    User(
+                        username = it.username as String,
+                        type = it.type,
+                        avatarUrl = it.avatarUrl
+                    )
+                if (isFavorite) {
+                    DatabaseService.getService(context).userDao().insertUsers(user)
+                } else {
+                    DatabaseService.getService(context).userDao().deleteUsers(user)
+                }
+                _user.postValue(Status.success(it))
+            }
+        }
+    }
+
+    fun getIsFavorite(context: Context, username: String) =
+        DatabaseService.getService(context).userDao().getOneByUsername(username)
 }

@@ -1,6 +1,5 @@
 package com.example.githubuser.util
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -28,7 +27,7 @@ fun Context.getColorFromAttr(
     return typedValue.data
 }
 
-fun Application.getSettingsPref(): SharedPreferences {
+fun Context.getSettingsPref(): SharedPreferences {
     return getSharedPreferences(SETTINGS_PREFERENCE_NAME, Context.MODE_PRIVATE)
 }
 
@@ -36,7 +35,8 @@ fun BottomNavigationView.setupWithNavController(
     navGraphIds: List<Int>,
     fragmentManager: FragmentManager,
     containerId: Int,
-    intent: Intent
+    intent: Intent,
+    destinationChangedListener: NavController.OnDestinationChangedListener
 ): LiveData<NavController> {
     val graphIdToTagMap = SparseArray<String>()
     val selectedNavController = MutableLiveData<NavController>()
@@ -59,6 +59,8 @@ fun BottomNavigationView.setupWithNavController(
 
         graphIdToTagMap[graphId] = fragmentTag
 
+        navHostFragment.navController.addOnDestinationChangedListener(destinationChangedListener)
+
         if (this.selectedItemId == graphId) {
             selectedNavController.value = navHostFragment.navController
             attachNavHostFragment(fragmentManager, navHostFragment, index == 0)
@@ -77,7 +79,6 @@ fun BottomNavigationView.setupWithNavController(
         } else {
             val newlySelectedItemTag = graphIdToTagMap[item.itemId]
             if (selectedItemTag != newlySelectedItemTag) {
-                // Pop everything above the first fragment (the "fixed start destination")
                 fragmentManager.popBackStack(
                     firstFragmentTag,
                     FragmentManager.POP_BACK_STACK_INCLUSIVE

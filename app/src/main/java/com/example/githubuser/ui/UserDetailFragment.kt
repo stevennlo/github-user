@@ -1,8 +1,7 @@
 package com.example.githubuser.ui
 
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,6 +19,8 @@ class UserDetailFragment :
     private lateinit var username: String
     private val args: UserDetailFragmentArgs by navArgs()
     private val viewModel: UserDetailViewModel by viewModels()
+    private var menu: Menu? = null
+    private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +39,7 @@ class UserDetailFragment :
             userDetailFollowingCv.setOnClickListener(this@UserDetailFragment)
             viewModel.user.observe(viewLifecycleOwner, { response ->
                 if (response.status == Status.StatusType.FAILED) {
+                    menu?.findItem(R.id.user_detail_favorite_item)?.isVisible = false
                     showResult(
                         MessageType.ERROR,
                         subtitleMessage = response.message
@@ -46,24 +48,53 @@ class UserDetailFragment :
                 } else {
                     showResult(MessageType.EXISTS)
                     val user = response.data
-                    user?.avatarUrl.apply {
-                        loadImage(
-                            mContext,
-                            response.data?.avatarUrl,
-                            R.drawable.ic_person_black_24dp,
-                            userDetailProfileSiv
-                        )
+                    user?.let { user ->
+                        user.avatarUrl.apply {
+                            loadImage(
+                                mContext,
+                                user.avatarUrl,
+                                R.drawable.ic_person_black_24dp,
+                                userDetailProfileSiv
+                            )
+                        }
+                        userDetailNameTv.text = user.name ?: "-"
+                        userDetailRepositoryTv.text = NumberUtil.prettyCount(user.publicRepos ?: 0)
+                        userDetailFollowersTv.text = NumberUtil.prettyCount(user.followers ?: 0)
+                        userDetailFollowingTv.text = NumberUtil.prettyCount(user.following ?: 0)
+                        userDetailCompanyTv.text = user.company ?: "-"
+                        userDetailLocationTv.text = user.location ?: "-"
                     }
-                    userDetailNameTv.text = user?.name ?: "-"
-                    userDetailRepositoryTv.text = NumberUtil.prettyCount(user?.publicRepos ?: 0)
-                    userDetailFollowersTv.text = NumberUtil.prettyCount(user?.followers ?: 0)
-                    userDetailFollowingTv.text = NumberUtil.prettyCount(user?.following ?: 0)
-                    userDetailCompanyTv.text = user?.company ?: "-"
-                    userDetailLocationTv.text = user?.location ?: "-"
+                    menu?.findItem(R.id.user_detail_favorite_item)?.isVisible = true
                 }
                 userDetailRefreshSrl.isRefreshing = false
             })
+            viewModel.getIsFavorite(mContext, username).observe(viewLifecycleOwner, {
+                isFavorite = it != null
+                setFavoriteIcon(isFavorite)
+            })
         }
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        this.menu = menu
+        inflater.inflate(R.menu.user_detail_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.user_detail_favorite_item -> {
+                viewModel.setFavorite(mContext, isFavorite xor true)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun setFavoriteIcon(isFavorite: Boolean) {
+        val iconId =
+            if (isFavorite) R.drawable.ic_favorite_red_24dp else R.drawable.ic_favorite_border_white_24dp
+        menu?.findItem(R.id.user_detail_favorite_item)?.setIcon(iconId)
     }
 
     private fun loadData() {

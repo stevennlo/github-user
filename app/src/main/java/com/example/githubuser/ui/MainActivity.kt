@@ -41,27 +41,14 @@ class MainActivity : AppCompatActivity() {
             navGraphIds = navGraphIds,
             fragmentManager = supportFragmentManager,
             containerId = R.id.nav_host_fragment,
-            intent = intent
+            intent = intent,
+            destinationChangedListener = destinationChangedListener
         )
 
         controller.observe(this, { navController ->
             setupActionBarWithNavController(navController)
         })
         currentNavController = controller
-    }
-
-    override fun onResume() {
-        super.onResume()
-        currentNavController?.value?.apply {
-            addOnDestinationChangedListener(destinationChangedListener)
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        currentNavController?.value?.apply {
-            removeOnDestinationChangedListener(destinationChangedListener)
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -1,10 +1,12 @@
 package com.example.githubuser.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.githubuser.model.User
+import com.example.githubuser.service.DatabaseService
 import com.example.githubuser.service.GitHubApiService.Companion.getService
 import com.example.githubuser.service.Status
 import kotlinx.coroutines.launch
@@ -34,4 +36,7 @@ class FollowersTabViewModel : ViewModel() {
             })
         }
     }
+
+    fun getIsFavorite(context: Context, username: String) =
+        DatabaseService.getService(context).userDao().getOneByUsername(username)
 }

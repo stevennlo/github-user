@@ -3,6 +3,8 @@ package com.example.githubuser.ui
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +20,10 @@ class FollowingTabFragment(private val username: String) :
     BaseFragment<FragmentFollowingTabBinding>(FragmentFollowingTabBinding::inflate) {
     private val viewModel: FollowingTabViewModel by viewModels()
     private val usersAdapter by lazy {
-        UsersAdapter((parentFragment as RelationAndRepoFragment)::toUserDetail)
+        UsersAdapter(
+            (parentFragment as RelationAndRepoFragment)::toUserDetail,
+            this::isFavoriteUser
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,6 +75,13 @@ class FollowingTabFragment(private val username: String) :
 
     private fun loadData() {
         viewModel.getUserFollowing(username)
+    }
+
+    private fun isFavoriteUser(username: String, favoriteIcon: ImageView) {
+        viewModel.getIsFavorite(mContext, username).observe(viewLifecycleOwner, {
+            val isFavorite = it != null
+            favoriteIcon.isVisible = isFavorite
+        })
     }
 
     override fun getRootViewGroup(): ViewGroup {
