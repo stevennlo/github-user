@@ -22,4 +22,9 @@
     <string name="fork_icon">Fork Icon</string>
     <string name="unknown_error_message">Something went wrong. Please try again later.</string>
     <string name="no_repo_yet">No repo yet!</string>
+    <string name="favorite_title">Favorite</string>
+    <string name="settings_title">Settings</string>
+    <string name="default_notification_title">Notification Title</string>
+    <string name="default_notification_message">Notification Message</string>
+    <string name="daily_reminder_message">Come on! Time to find out someone in Github User!</string>
 </resources>

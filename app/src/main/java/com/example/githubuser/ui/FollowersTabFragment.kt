@@ -12,7 +12,6 @@ import com.example.githubuser.databinding.FragmentFollowersTabBinding
 import com.example.githubuser.service.Status
 import com.example.githubuser.util.ImageUtil.getDrawable
 import com.example.githubuser.util.MessageType
-import com.example.githubuser.util.getColorFromAttr
 import com.example.githubuser.viewmodel.FollowersTabViewModel
 
 class FollowersTabFragment(private val username: String) :
@@ -30,7 +29,6 @@ class FollowersTabFragment(private val username: String) :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            followersTabRefreshSrl.setColorSchemeColors(mContext.getColorFromAttr(R.attr.colorPrimary))
             followersTabRefreshSrl.setOnRefreshListener {
                 loadData()
             }
@@ -65,8 +63,6 @@ class FollowersTabFragment(private val username: String) :
                         }
                     }
                 addItemDecoration(itemDecoration)
-                layoutManager =
-                    LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
             }
         }
     }

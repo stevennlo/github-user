@@ -23,4 +23,9 @@
     <string name="fork_icon">Ikon Cabang</string>
     <string name="unknown_error_message">Ada sesuatu yang salah. Mohon coba lagi nanti.</string>
     <string name="no_repo_yet">Belum ada repository!</string>
+    <string name="favorite_title">Favorite</string>
+    <string name="settings_title">Setelan</string>
+    <string name="default_notification_title">Judul Notifikasi</string>
+    <string name="default_notification_message">Pesan Notifikasi</string>
+    <string name="daily_reminder_message">Ayo buruan! Waktunya mencari seseorang di Github User!</string>
 </resources>

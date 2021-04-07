@@ -46,6 +46,6 @@ class RelationAndRepoFragment :
     }
 
     override fun getRootViewGroup(): ViewGroup {
-        return binding.relationAndRepoRootCl
+        return binding.root
     }
 }

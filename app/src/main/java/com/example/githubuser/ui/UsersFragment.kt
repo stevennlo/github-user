@@ -34,7 +34,6 @@ class UsersFragment : BaseFragment<FragmentUsersBinding>(FragmentUsersBinding::i
             getString(R.string.try_to_search_someone_text)
         )
         binding.apply {
-            usersRefreshSrl.setColorSchemeColors(mContext.getColorFromAttr(R.attr.colorPrimary))
             usersRefreshSrl.setOnRefreshListener {
                 viewModel.keyword.value?.let {
                     searchUser(it)

@@ -11,7 +11,6 @@ import com.example.githubuser.databinding.FragmentRepositoryTabBinding
 import com.example.githubuser.service.Status
 import com.example.githubuser.util.ImageUtil.getDrawable
 import com.example.githubuser.util.MessageType
-import com.example.githubuser.util.getColorFromAttr
 import com.example.githubuser.viewmodel.RepositoryTabViewModel
 
 class RepositoryTabFragment(private val username: String) :
@@ -28,7 +27,6 @@ class RepositoryTabFragment(private val username: String) :
         super.runOnCreateView()
 
         binding.apply {
-            repositoryTabRefreshSrl.setColorSchemeColors(mContext.getColorFromAttr(R.attr.colorPrimary))
             repositoryTabRefreshSrl.setOnRefreshListener {
                 loadData()
             }

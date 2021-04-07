@@ -30,7 +30,7 @@ class UsersAdapter(private val clickListener: (String) -> Unit) :
                     )
                 }
                 compUserNameTv.text = item.login
-                compUserLayout.setOnClickListener {
+                root.setOnClickListener {
                     item.login?.apply {
                         layoutClickListener.invoke(item.login)
                     }
