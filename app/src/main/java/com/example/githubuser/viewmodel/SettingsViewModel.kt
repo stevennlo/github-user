@@ -23,8 +23,8 @@ class SettingsViewModel : ViewModel() {
             mutableMapOf(
                 "daily_reminder" to Setting(
                     "daily_reminder",
-                    "Daily reminder",
-                    "Remind daily at 09.00 AM",
+                    context.getString(R.string.daily_reminder_title),
+                    context.getString(R.string.daily_reminder_description),
                     isDailyReminderActive
                 )
             )
@@ -37,8 +37,8 @@ class SettingsViewModel : ViewModel() {
                     val isActive = sharedPreferences.getBoolean(key, false)
                     it.isActive = isActive
                     _settings.postValue(_settings.value)
-                    if (key == "daily_reminder") {
-                        setAlarm(context, isActive)
+                    when (key) {
+                        "daily_reminder" -> setAlarm(context, isActive)
                     }
                 }
             }

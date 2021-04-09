@@ -45,6 +45,16 @@
                     app:strokeWidth="@dimen/image_stroke_width"
                     tools:src="@drawable/user1" />
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/user_detail_favorite_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="?attr/favoriteColorSurface"
+                    android:contentDescription="@string/favorite_icon"
+                    android:src="@drawable/ic_favorite_border_white_24dp"
+                    app:layout_constraintBottom_toBottomOf="@id/user_detail_profile_siv"
+                    app:layout_constraintEnd_toEndOf="@id/user_detail_profile_siv" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

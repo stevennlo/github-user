@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Consumer App</string>
+    <string name="location_icon">Location Icon</string>
+    <string name="repositories">repos</string>
+    <string name="followers">followers</string>
+    <string name="about">About</string>
+    <string name="following">following</string>
+    <string name="company_icon">Company Icon</string>
+    <string name="repositories_tab">Repos</string>
+    <string name="followers_tab">Followers</string>
+    <string name="following_tab">Following</string>
+    <string name="default_string_text">-</string>
+    <string name="image_about_message">Message Image</string>
+    <string name="welcome_text">Welcome!</string>
+    <string name="try_to_search_someone_text">Try to search someone.</string>
+    <string name="no_one_here">No one here!</string>
+    <string name="by_text">by</string>
+    <string name="star_icon">Star Icon</string>
+    <string name="fork_icon">Fork Icon</string>
+    <string name="unknown_error_message">Something went wrong. Please try again later.</string>
+    <string name="no_repo_yet">No repo yet!</string>
+    <string name="favorite_title">Favorite</string>
+    <string name="favorite_icon">Favorite Icon</string>
+</resources>

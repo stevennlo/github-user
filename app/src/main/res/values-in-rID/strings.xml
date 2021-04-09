@@ -29,4 +29,6 @@
     <string name="default_notification_message">Pesan Notifikasi</string>
     <string name="daily_reminder_message">Ayo buruan! Waktunya mencari seseorang di Github User!</string>
     <string name="favorite_icon">Ikon Favorit</string>
+    <string name="daily_reminder_title">Pengingat harian</string>
+    <string name="daily_reminder_description">Pengingat harian setiap jam 09.00</string>
 </resources>

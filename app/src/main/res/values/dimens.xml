@@ -5,4 +5,5 @@
     <dimen name="rounded_layout_radius">36dp</dimen>
     <dimen name="divider_height">16dp</dimen>
     <dimen name="elevation_level_1">4dp</dimen>
+    <dimen name="widget_margin">0dp</dimen>
 </resources>

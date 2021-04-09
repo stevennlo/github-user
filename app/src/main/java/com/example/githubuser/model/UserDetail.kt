@@ -5,8 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserDetail(
+    @SerialName("id")
+    val id: Int,
     @SerialName("login")
-    val username: String? = null,
+    val username: String,
     @SerialName("company")
     val company: String? = null,
     @SerialName("public_repos")

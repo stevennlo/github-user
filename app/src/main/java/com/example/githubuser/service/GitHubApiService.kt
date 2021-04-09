@@ -21,7 +21,7 @@ import retrofit2.http.Query
 
 interface GitHubApiService {
     companion object {
-        fun getService(): GitHubApiService {
+        fun getInstance(): GitHubApiService {
             val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             val okHttp = OkHttpClient.Builder()
                 .addInterceptor(TokenInterceptor(GITHUB_API_ACCESS_TOKEN))

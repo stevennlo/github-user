@@ -1,13 +1,15 @@
 package com.example.githubuser.viewmodel
 
 import android.content.Context
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.githubuser.model.User
-import com.example.githubuser.service.DatabaseService
-import com.example.githubuser.service.GitHubApiService.Companion.getService
+import com.example.githubuser.service.ContentProviderLiveData
+import com.example.githubuser.service.FavoriteProvider
+import com.example.githubuser.service.GitHubApiService.Companion.getInstance
 import com.example.githubuser.service.Status
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -20,7 +22,7 @@ class FollowersTabViewModel : ViewModel() {
 
     fun getUserFollowers(username: String) {
         viewModelScope.launch {
-            val call = getService().getUserFollowers(username)
+            val call = getInstance().getUserFollowers(username)
             call.enqueue(object : Callback<List<User>?> {
                 override fun onResponse(call: Call<List<User>?>, response: Response<List<User>?>) {
                     if (response.code() == 200) {
@@ -37,6 +39,24 @@ class FollowersTabViewModel : ViewModel() {
         }
     }
 
-    fun getIsFavorite(context: Context, username: String) =
-        DatabaseService.getService(context).userDao().getOneByUsername(username)
+    fun getIsFavorite(context: Context, id: Int): ContentProviderLiveData<Boolean> {
+        return object : ContentProviderLiveData<Boolean>(
+            context,
+            FavoriteProvider.USERS_FAVORITE_URI
+        ) {
+            override suspend fun getContentProviderValue(): Boolean {
+                val cursor =
+                    context.contentResolver.query(
+                        "${FavoriteProvider.USERS_FAVORITE_URI}/$id".toUri(),
+                        null,
+                        null,
+                        null,
+                        null
+                    )
+                val result = (cursor?.count ?: 0) != 0
+                cursor?.close()
+                return result
+            }
+        }
+    }
 }

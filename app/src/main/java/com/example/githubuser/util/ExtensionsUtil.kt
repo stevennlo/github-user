@@ -1,8 +1,10 @@
 package com.example.githubuser.util
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.database.Cursor
 import android.util.SparseArray
 import android.util.TypedValue
 import androidx.annotation.AttrRes
@@ -15,6 +17,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.githubuser.R
+import com.example.githubuser.model.User
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 @ColorInt
@@ -29,6 +32,45 @@ fun Context.getColorFromAttr(
 
 fun Context.getSettingsPref(): SharedPreferences {
     return getSharedPreferences(SETTINGS_PREFERENCE_NAME, Context.MODE_PRIVATE)
+}
+
+fun User.toContentValues(): ContentValues {
+    val values = ContentValues()
+    values.apply {
+        put(USERS_FAVORITE_ID, id)
+        put(USERS_FAVORITE_USERNAME, username)
+        put(USERS_FAVORITE_TYPE, type)
+        put(USERS_FAVORITE_AVATAR_URL, avatarUrl)
+    }
+    return values
+}
+
+fun ContentValues.toUser(): User {
+    return User(
+        getAsInteger(USERS_FAVORITE_ID),
+        getAsString(USERS_FAVORITE_USERNAME),
+        getAsString(USERS_FAVORITE_TYPE),
+        getAsString(USERS_FAVORITE_AVATAR_URL)
+    )
+}
+
+fun Cursor.toUser(): User {
+    return User(
+        getInt(getColumnIndexOrThrow(USERS_FAVORITE_ID)),
+        getString(getColumnIndexOrThrow(USERS_FAVORITE_USERNAME)),
+        getString(getColumnIndexOrThrow(USERS_FAVORITE_TYPE)),
+        getString(getColumnIndexOrThrow(USERS_FAVORITE_AVATAR_URL))
+    )
+}
+
+fun Cursor.toListUser(): List<User> {
+    val users = mutableListOf<User>()
+    apply {
+        while (moveToNext()) {
+            users.add(toUser())
+        }
+    }
+    return users
 }
 
 fun BottomNavigationView.setupWithNavController(
