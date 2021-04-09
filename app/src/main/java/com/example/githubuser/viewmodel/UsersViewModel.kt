@@ -49,7 +49,7 @@ class UsersViewModel : ViewModel() {
         }
     }
 
-    fun getIsFavorite(context: Context, id: Int): ContentProviderLiveData<Boolean> {
+    fun getIsFavorite(context: Context, username: String): ContentProviderLiveData<Boolean> {
         return object : ContentProviderLiveData<Boolean>(
             context,
             FavoriteProvider.USERS_FAVORITE_URI
@@ -57,7 +57,7 @@ class UsersViewModel : ViewModel() {
             override suspend fun getContentProviderValue(): Boolean {
                 val cursor =
                     context.contentResolver.query(
-                        "${FavoriteProvider.USERS_FAVORITE_URI}/$id".toUri(),
+                        "${FavoriteProvider.USERS_FAVORITE_URI}/$username".toUri(),
                         null,
                         null,
                         null,

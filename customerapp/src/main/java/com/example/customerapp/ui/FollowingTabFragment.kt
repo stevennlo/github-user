@@ -77,8 +77,8 @@ class FollowingTabFragment(private val username: String) :
         viewModel.getUserFollowing(username)
     }
 
-    private fun isFavoriteUser(id: Int, favoriteIcon: ImageView) {
-        viewModel.getIsFavorite(mContext, id).observe(viewLifecycleOwner, {
+    private fun isFavoriteUser(username: String, favoriteIcon: ImageView) {
+        viewModel.getIsFavorite(mContext, username).observe(viewLifecycleOwner, {
             val isFavorite = it
             favoriteIcon.isVisible = isFavorite
         })

@@ -13,12 +13,12 @@ interface UserDao {
     @Query("SELECT * FROM $USERS_FAVORITE_TABLE_NAME")
     fun getAll(): Cursor
 
-    @Query("SELECT * FROM $USERS_FAVORITE_TABLE_NAME WHERE id = :id LIMIT 1")
-    fun getOneByUsername(id: Int): Cursor
+    @Query("SELECT * FROM $USERS_FAVORITE_TABLE_NAME WHERE username = :username")
+    fun getOneByUsername(username: String): Cursor
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUser(users: User): Long
 
-    @Query("DELETE FROM $USERS_FAVORITE_TABLE_NAME WHERE id = :id")
-    fun deleteUser(id: Int): Int
+    @Query("DELETE FROM $USERS_FAVORITE_TABLE_NAME WHERE username = :username")
+    fun deleteUser(username: String): Int
 }

@@ -19,8 +19,8 @@
         android:name="com.example.customerapp.ui.UserDetailFragment"
         tools:layout="@layout/fragment_user_detail">
         <argument
-            android:name="user"
-            app:argType="com.example.customerapp.model.User" />
+            android:name="username"
+            app:argType="string" />
         <action
             android:id="@+id/action_userDetailFragment_to_relationAndRepoFragment"
             app:destination="@id/relationAndRepoFragment" />
@@ -33,8 +33,8 @@
             android:id="@+id/action_relationAndRepoFragment_to_userDetailFragment"
             app:destination="@id/userDetailFragment" />
         <argument
-            android:name="user"
-            app:argType="com.example.customerapp.model.User" />
+            android:name="username"
+            app:argType="string" />
         <argument
             android:name="tab"
             android:defaultValue="0"

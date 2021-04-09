@@ -5,8 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserDetail(
-    @SerialName("id")
-    val id: Int,
     @SerialName("login")
     val username: String,
     @SerialName("company")

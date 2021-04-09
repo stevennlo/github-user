@@ -21,7 +21,6 @@ fun Context.getColorFromAttr(
 fun User.toContentValues(): ContentValues {
     val values = ContentValues()
     values.apply {
-        put(USERS_FAVORITE_ID, id)
         put(USERS_FAVORITE_USERNAME, username)
         put(USERS_FAVORITE_TYPE, type)
         put(USERS_FAVORITE_AVATAR_URL, avatarUrl)
@@ -31,7 +30,6 @@ fun User.toContentValues(): ContentValues {
 
 fun ContentValues.toUser(): User {
     return User(
-        getAsInteger(USERS_FAVORITE_ID),
         getAsString(USERS_FAVORITE_USERNAME),
         getAsString(USERS_FAVORITE_TYPE),
         getAsString(USERS_FAVORITE_AVATAR_URL)
@@ -40,7 +38,6 @@ fun ContentValues.toUser(): User {
 
 fun Cursor.toUser(): User {
     return User(
-        getInt(getColumnIndexOrThrow(USERS_FAVORITE_ID)),
         getString(getColumnIndexOrThrow(USERS_FAVORITE_USERNAME)),
         getString(getColumnIndexOrThrow(USERS_FAVORITE_TYPE)),
         getString(getColumnIndexOrThrow(USERS_FAVORITE_AVATAR_URL))

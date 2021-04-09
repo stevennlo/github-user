@@ -8,6 +8,7 @@ import android.database.ContentObserver
 import android.database.Cursor
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import com.example.githubuser.ui.FavoriteWidget.Companion.sendRefreshBroadcast
 import com.example.githubuser.util.DATABASE_AUTHORITY
 import com.example.githubuser.util.DATABASE_SCHEME
 import com.example.githubuser.util.USERS_FAVORITE_TABLE_NAME
@@ -22,7 +23,7 @@ class FavoriteProvider : ContentProvider() {
         private const val USER_ID = 2
         private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH).apply {
             addURI(DATABASE_AUTHORITY, USERS_FAVORITE_TABLE_NAME, USER)
-            addURI(DATABASE_AUTHORITY, "$USERS_FAVORITE_TABLE_NAME/#", USER_ID)
+            addURI(DATABASE_AUTHORITY, "$USERS_FAVORITE_TABLE_NAME/*", USER_ID)
         }
         val USERS_FAVORITE_URI: Uri = Uri.Builder().scheme(DATABASE_SCHEME)
             .authority(DATABASE_AUTHORITY)
@@ -55,7 +56,7 @@ class FavoriteProvider : ContentProvider() {
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
         val deleted = if (uriMatcher.match(uri) == USER_ID) {
-            uri.lastPathSegment?.toInt()?.let {
+            uri.lastPathSegment?.let {
                 databaseService.userDao().deleteUser(it)
                 1
             } ?: 0
@@ -72,13 +73,14 @@ class FavoriteProvider : ContentProvider() {
     ): Cursor? {
         return when (uriMatcher.match(uri)) {
             USER -> databaseService.userDao().getAll()
-            USER_ID -> uri.lastPathSegment?.toInt()
+            USER_ID -> uri.lastPathSegment
                 ?.let { databaseService.userDao().getOneByUsername(it) }
             else -> null
         }
     }
 
     private fun refreshWidgetUser() {
+        sendRefreshBroadcast(mContext)
     }
 
     override fun update(

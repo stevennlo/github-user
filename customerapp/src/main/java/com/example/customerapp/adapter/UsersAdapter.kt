@@ -12,14 +12,14 @@ import com.example.customerapp.model.User
 import com.example.customerapp.util.ImageUtil
 
 class UsersAdapter(
-    private val clickListener: (User) -> Unit,
-    private val favoriteChangeListener: (Int, ImageView) -> Unit
+    private val clickListener: (String) -> Unit,
+    private val favoriteChangeListener: (String, ImageView) -> Unit
 ) :
     ListAdapter<User, UsersAdapter.ViewHolder>(UserDiffCallback()) {
     class ViewHolder(
         private val binding: ComponentUserBinding,
-        private val layoutClickListener: (User) -> Unit,
-        private val favoriteChangeListener: (Int, ImageView) -> Unit
+        private val layoutClickListener: (String) -> Unit,
+        private val favoriteChangeListener: (String, ImageView) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
@@ -36,10 +36,10 @@ class UsersAdapter(
                 }
                 compUserNameTv.text = item.username
                 root.setOnClickListener {
-                    layoutClickListener.invoke(item)
+                    layoutClickListener.invoke(item.username)
                 }
                 compUserRoleTv.text = item.type
-                favoriteChangeListener.invoke(item.id, compUserFavoriteIv)
+                favoriteChangeListener.invoke(item.username, compUserFavoriteIv)
             }
         }
     }

@@ -7,7 +7,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.consumerapp.R
 import com.example.consumerapp.databinding.FragmentUserDetailBinding
-import com.example.customerapp.model.User
 import com.example.customerapp.service.Status
 import com.example.customerapp.util.ImageUtil.loadImage
 import com.example.customerapp.util.MessageType
@@ -17,7 +16,7 @@ import com.example.customerapp.viewmodel.UserDetailViewModel
 class UserDetailFragment :
     BaseFragment<FragmentUserDetailBinding>(FragmentUserDetailBinding::inflate),
     View.OnClickListener {
-    private lateinit var user: User
+    private lateinit var username: String
     private val args: UserDetailFragmentArgs by navArgs()
     private val viewModel: UserDetailViewModel by viewModels()
     private var isFavorite: Boolean = false
@@ -29,7 +28,7 @@ class UserDetailFragment :
 
     override fun runOnCreateView() {
         super.runOnCreateView()
-        mActivity.supportActionBar?.title = user.username
+        mActivity.supportActionBar?.title = username
         binding.apply {
             userDetailRefreshSrl.setOnRefreshListener {
                 loadData()
@@ -68,7 +67,7 @@ class UserDetailFragment :
                 userDetailRefreshSrl.isRefreshing = false
             })
 
-            viewModel.getIsFavorite(mContext, user.id).observe(viewLifecycleOwner, {
+            viewModel.getIsFavorite(mContext, username).observe(viewLifecycleOwner, {
                 isFavorite = it
                 setFavoriteIcon(it)
             })
@@ -83,14 +82,14 @@ class UserDetailFragment :
     }
 
     private fun loadData() {
-        user = args.user
-        viewModel.getUserDetail(user.username)
+        username = args.username
+        viewModel.getUserDetail(username)
     }
 
-    private fun toRelationAndRepo(user: User, tab: Int) {
+    private fun toRelationAndRepo(username: String, tab: Int) {
         val toRelationAndRepoFragment =
             UserDetailFragmentDirections.actionUserDetailFragmentToRelationAndRepoFragment(
-                user = user,
+                username = username,
                 tab = tab
             )
         findNavController().navigate(toRelationAndRepoFragment)
@@ -98,10 +97,14 @@ class UserDetailFragment :
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.user_detail_repository_cv -> toRelationAndRepo(user, 0)
-            R.id.user_detail_followers_cv -> toRelationAndRepo(user, 1)
-            R.id.user_detail_following_cv -> toRelationAndRepo(user, 2)
-            R.id.user_detail_favorite_fab -> viewModel.setFavorite(mContext, isFavorite xor true)
+            R.id.user_detail_repository_cv -> toRelationAndRepo(username, 0)
+            R.id.user_detail_followers_cv -> toRelationAndRepo(username, 1)
+            R.id.user_detail_following_cv -> toRelationAndRepo(username, 2)
+            R.id.user_detail_favorite_fab -> viewModel.setFavorite(
+                mContext,
+                username,
+                isFavorite xor true
+            )
         }
     }
 

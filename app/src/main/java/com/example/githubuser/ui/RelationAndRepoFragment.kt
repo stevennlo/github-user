@@ -6,24 +6,23 @@ import androidx.navigation.fragment.navArgs
 import com.example.githubuser.R
 import com.example.githubuser.adapter.RelationAndRepoPagerAdapter
 import com.example.githubuser.databinding.FragmentRelationAndRepoBinding
-import com.example.githubuser.model.User
 import com.example.githubuser.util.MessageType
 import com.google.android.material.tabs.TabLayoutMediator
 
 class RelationAndRepoFragment :
     BaseFragment<FragmentRelationAndRepoBinding>(FragmentRelationAndRepoBinding::inflate) {
-    private lateinit var user: User
+    private lateinit var username: String
     private val args: RelationAndRepoFragmentArgs by navArgs()
 
     override fun runOnCreateView() {
         super.runOnCreateView()
         val tab = args.tab
-        user = args.user
-        mActivity.supportActionBar?.title = user.username
+        username = args.username
+        mActivity.supportActionBar?.title = username
         showResult(MessageType.EXISTS)
         binding.apply {
             val relationAndRepoPagerAdapter =
-                RelationAndRepoPagerAdapter(this@RelationAndRepoFragment, user.username)
+                RelationAndRepoPagerAdapter(this@RelationAndRepoFragment, username)
             relationAndRepoContentVp2.isUserInputEnabled = false
             relationAndRepoContentVp2.adapter = relationAndRepoPagerAdapter
             relationAndRepoContentVp2.setCurrentItem(tab, false)
@@ -38,10 +37,10 @@ class RelationAndRepoFragment :
         }
     }
 
-    fun toUserDetail(user: User) {
+    fun toUserDetail(username: String) {
         val toUserDetailFragment =
             RelationAndRepoFragmentDirections.actionRelationAndRepoFragmentToUserDetailFragment(
-                user
+                username
             )
         findNavController().navigate(toUserDetailFragment)
     }

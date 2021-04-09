@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuser.R
 import com.example.githubuser.adapter.UsersAdapter
 import com.example.githubuser.databinding.FragmentUsersBinding
-import com.example.githubuser.model.User
 import com.example.githubuser.service.Status
 import com.example.githubuser.util.ImageUtil.getDrawable
 import com.example.githubuser.util.MessageType
@@ -109,14 +108,14 @@ class UsersFragment : BaseFragment<FragmentUsersBinding>(FragmentUsersBinding::i
         viewModel.searchUser(keyword)
     }
 
-    private fun toUserDetail(user: User) {
+    private fun toUserDetail(username: String) {
         val toUserDetailFragment =
-            UsersFragmentDirections.actionUsersFragmentToUserDetailFragment(user)
+            UsersFragmentDirections.actionUsersFragmentToUserDetailFragment(username)
         findNavController().navigate(toUserDetailFragment)
     }
 
-    private fun isFavoriteUser(id: Int, favoriteIcon: ImageView) {
-        viewModel.getIsFavorite(mContext, id).observe(viewLifecycleOwner, {
+    private fun isFavoriteUser(username: String, favoriteIcon: ImageView) {
+        viewModel.getIsFavorite(mContext, username).observe(viewLifecycleOwner, {
             val isFavorite = it
             favoriteIcon.isVisible = isFavorite
         })

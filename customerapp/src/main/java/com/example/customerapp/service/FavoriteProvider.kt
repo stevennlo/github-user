@@ -1,9 +1,7 @@
 package com.example.customerapp.service
 
-import android.content.ContentProvider
-import android.content.ContentValues
-import android.content.Context
-import android.content.UriMatcher
+import android.appwidget.AppWidgetManager
+import android.content.*
 import android.database.ContentObserver
 import android.database.Cursor
 import android.net.Uri
@@ -55,7 +53,7 @@ class FavoriteProvider : ContentProvider() {
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
         val deleted = if (uriMatcher.match(uri) == USER_ID) {
-            uri.lastPathSegment?.toInt()?.let {
+            uri.lastPathSegment?.let {
                 databaseService.userDao().deleteUser(it)
                 1
             } ?: 0
@@ -72,13 +70,18 @@ class FavoriteProvider : ContentProvider() {
     ): Cursor? {
         return when (uriMatcher.match(uri)) {
             USER -> databaseService.userDao().getAll()
-            USER_ID -> uri.lastPathSegment?.toInt()
+            USER_ID -> uri.lastPathSegment
                 ?.let { databaseService.userDao().getOneByUsername(it) }
             else -> null
         }
     }
 
     private fun refreshWidgetUser() {
+        val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).apply {
+            component = ComponentName(mContext, "com.example.githubuser.ui.FavoriteWidget")
+            flags = Intent.FLAG_INCLUDE_STOPPED_PACKAGES
+        }
+        mContext.sendBroadcast(intent)
     }
 
     override fun update(

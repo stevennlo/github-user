@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuser.R
 import com.example.githubuser.adapter.UsersAdapter
 import com.example.githubuser.databinding.FragmentFavoriteBinding
-import com.example.githubuser.model.User
 import com.example.githubuser.util.ImageUtil
 import com.example.githubuser.util.MessageType
 import com.example.githubuser.viewmodel.FavoriteViewModel
@@ -48,15 +47,15 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteB
         }
     }
 
-    private fun toUserDetail(user: User) {
+    private fun toUserDetail(username: String) {
         val toUserDetailFragment =
             FavoriteFragmentDirections.actionFavoriteFragmentToUserDetailFragment(
-                user
+                username
             )
         findNavController().navigate(toUserDetailFragment)
     }
 
-    private fun isFavoriteUser(id: Int, favoriteIcon: ImageView) {
+    private fun isFavoriteUser(username: String, favoriteIcon: ImageView) {
         favoriteIcon.isVisible = true
     }
 

@@ -31,4 +31,5 @@
     <string name="favorite_icon">Ikon Favorit</string>
     <string name="daily_reminder_title">Pengingat harian</string>
     <string name="daily_reminder_description">Pengingat harian setiap jam 09.00</string>
+    <string name="profile_picture">Foto Profil</string>
 </resources>

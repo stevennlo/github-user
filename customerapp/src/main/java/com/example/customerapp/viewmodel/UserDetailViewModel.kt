@@ -45,12 +45,11 @@ class UserDetailViewModel : ViewModel() {
         }
     }
 
-    fun setFavorite(context: Context, isFavorite: Boolean) {
+    fun setFavorite(context: Context, username: String, isFavorite: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             user.value?.data?.let { it ->
                 val user =
                     User(
-                        id = it.id,
                         username = it.username,
                         type = it.type,
                         avatarUrl = it.avatarUrl
@@ -59,7 +58,7 @@ class UserDetailViewModel : ViewModel() {
                     context.contentResolver.insert(USERS_FAVORITE_URI, user.toContentValues())
                 } else {
                     context.contentResolver.delete(
-                        "$USERS_FAVORITE_URI/${it.id}".toUri(),
+                        "$USERS_FAVORITE_URI/${username}".toUri(),
                         null,
                         null
                     )
@@ -68,12 +67,12 @@ class UserDetailViewModel : ViewModel() {
         }
     }
 
-    fun getIsFavorite(context: Context, id: Int): ContentProviderLiveData<Boolean> {
+    fun getIsFavorite(context: Context, username: String): ContentProviderLiveData<Boolean> {
         return object : ContentProviderLiveData<Boolean>(context, USERS_FAVORITE_URI) {
             override suspend fun getContentProviderValue(): Boolean {
                 val cursor =
                     context.contentResolver.query(
-                        "$USERS_FAVORITE_URI/$id".toUri(),
+                        "$USERS_FAVORITE_URI/$username".toUri(),
                         null,
                         null,
                         null,

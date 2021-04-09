@@ -3,7 +3,7 @@
     android:initialKeyguardLayout="@layout/favorite_widget"
     android:initialLayout="@layout/favorite_widget"
     android:minWidth="187.5dp"
-    android:minHeight="110dp"
+    android:minHeight="146dp"
     android:previewImage="@drawable/ic_launcher_foreground"
     android:updatePeriodMillis="0"
     android:widgetCategory="home_screen" />
