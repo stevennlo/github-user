@@ -15,7 +15,7 @@ import java.util.*
 
 class SettingsViewModel : ViewModel() {
     private val _settings = MutableLiveData<Map<String, Setting>>()
-    val settings: LiveData<Map<String, Setting>> = _settings
+    val settings: LiveData<Map<String, Setting>> get() = _settings
 
     fun init(context: Context) {
         val isDailyReminderActive = context.getSettingsPref().getBoolean("daily_reminder", false)
