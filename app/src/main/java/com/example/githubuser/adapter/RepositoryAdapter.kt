@@ -16,7 +16,7 @@ class RepositoryAdapter :
         fun bind(item: Repository) {
             binding.apply {
                 compRepositoryNameTv.text = item.fullName
-                compRepositoryOwnerTv.text = item.owner?.login
+                compRepositoryOwnerTv.text = item.owner?.username
                 compRepositoryStarsTv.text = prettyCount(item.stargazersCount ?: 0)
                 compRepositoryForksTv.text = prettyCount(item.forksCount ?: 0)
             }

@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/widget_margin"
+    android:theme="@style/ThemeOverlay.GitHubUser.AppWidgetContainer">
+
+    <TextView
+        android:id="@+id/favorite_widget_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@color/primaryColor"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="@string/favorite_title"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <StackView
+        android:id="@+id/favorite_list_sv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/lightPrimaryColor"
+        android:loopViews="true" />
+
+    <LinearLayout
+        android:id="@+id/favorite_empty_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/main_message_image_iv"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:alpha="0.6"
+            android:contentDescription="@string/image_about_message"
+            android:src="@drawable/ic_not_found" />
+
+        <TextView
+            android:id="@+id/main_message_subtitle_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_one_here"
+            android:textAlignment="center"
+            android:textColor="@color/secondaryTextOnSurface"
+            android:textSize="24sp" />
+    </LinearLayout>
+</LinearLayout>

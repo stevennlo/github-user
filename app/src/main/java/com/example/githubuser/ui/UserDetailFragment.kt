@@ -1,8 +1,7 @@
 package com.example.githubuser.ui
 
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,6 +19,7 @@ class UserDetailFragment :
     private lateinit var username: String
     private val args: UserDetailFragmentArgs by navArgs()
     private val viewModel: UserDetailViewModel by viewModels()
+    private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +36,7 @@ class UserDetailFragment :
             userDetailRepositoryCv.setOnClickListener(this@UserDetailFragment)
             userDetailFollowersCv.setOnClickListener(this@UserDetailFragment)
             userDetailFollowingCv.setOnClickListener(this@UserDetailFragment)
+            userDetailFavoriteFab.setOnClickListener(this@UserDetailFragment)
             viewModel.user.observe(viewLifecycleOwner, { response ->
                 if (response.status == Status.StatusType.FAILED) {
                     showResult(
@@ -46,24 +47,38 @@ class UserDetailFragment :
                 } else {
                     showResult(MessageType.EXISTS)
                     val user = response.data
-                    user?.avatarUrl.apply {
-                        loadImage(
-                            mContext,
-                            response.data?.avatarUrl,
-                            R.drawable.ic_person_black_24dp,
-                            userDetailProfileSiv
-                        )
+                    user?.let {
+                        user.avatarUrl.apply {
+                            loadImage(
+                                mContext,
+                                user.avatarUrl,
+                                R.drawable.ic_person_black_24dp,
+                                userDetailProfileSiv
+                            )
+                        }
+                        userDetailNameTv.text = user.name ?: "-"
+                        userDetailRepositoryTv.text = NumberUtil.prettyCount(user.publicRepos ?: 0)
+                        userDetailFollowersTv.text = NumberUtil.prettyCount(user.followers ?: 0)
+                        userDetailFollowingTv.text = NumberUtil.prettyCount(user.following ?: 0)
+                        userDetailCompanyTv.text = user.company ?: "-"
+                        userDetailLocationTv.text = user.location ?: "-"
                     }
-                    userDetailNameTv.text = user?.name ?: "-"
-                    userDetailRepositoryTv.text = NumberUtil.prettyCount(user?.publicRepos ?: 0)
-                    userDetailFollowersTv.text = NumberUtil.prettyCount(user?.followers ?: 0)
-                    userDetailFollowingTv.text = NumberUtil.prettyCount(user?.following ?: 0)
-                    userDetailCompanyTv.text = user?.company ?: "-"
-                    userDetailLocationTv.text = user?.location ?: "-"
                 }
                 userDetailRefreshSrl.isRefreshing = false
             })
+
+            viewModel.getIsFavorite(mContext, username).observe(viewLifecycleOwner, {
+                isFavorite = it
+                setFavoriteIcon(it)
+            })
         }
+        setHasOptionsMenu(true)
+    }
+
+    private fun setFavoriteIcon(isFavorite: Boolean) {
+        val iconId =
+            if (isFavorite) R.drawable.ic_favorite_white_24dp else R.drawable.ic_favorite_border_white_24dp
+        binding.userDetailFavoriteFab.setImageResource(iconId)
     }
 
     private fun loadData() {
@@ -85,6 +100,11 @@ class UserDetailFragment :
             R.id.user_detail_repository_cv -> toRelationAndRepo(username, 0)
             R.id.user_detail_followers_cv -> toRelationAndRepo(username, 1)
             R.id.user_detail_following_cv -> toRelationAndRepo(username, 2)
+            R.id.user_detail_favorite_fab -> viewModel.setFavorite(
+                mContext,
+                username,
+                isFavorite xor true
+            )
         }
     }
 

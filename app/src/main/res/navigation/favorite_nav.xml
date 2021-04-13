@@ -11,11 +11,33 @@
         android:label="@string/favorite_title"
         tools:layout="@layout/fragment_favorite">
         <action
-            android:id="@+id/action_favoriteFragment_to_userDetailFragment2"
-            app:destination="@id/userDetailFragment2" />
+            android:id="@+id/action_favoriteFragment_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/userDetailFragment2"
+        android:id="@+id/userDetailFragment"
         android:name="com.example.githubuser.ui.UserDetailFragment"
-        tools:layout="@layout/fragment_user_detail" />
+        tools:layout="@layout/fragment_user_detail">
+        <argument
+            android:name="username"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_userDetailFragment_to_relationAndRepoFragment"
+            app:destination="@id/relationAndRepoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/relationAndRepoFragment"
+        android:name="com.example.githubuser.ui.RelationAndRepoFragment"
+        tools:layout="@layout/fragment_relation_and_repo">
+        <action
+            android:id="@+id/action_relationAndRepoFragment_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" />
+        <argument
+            android:name="username"
+            app:argType="string" />
+        <argument
+            android:name="tab"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 </navigation>

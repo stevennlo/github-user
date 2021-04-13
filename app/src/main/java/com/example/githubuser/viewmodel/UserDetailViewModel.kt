@@ -1,12 +1,19 @@
 package com.example.githubuser.viewmodel
 
+import android.content.Context
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.githubuser.model.User
 import com.example.githubuser.model.UserDetail
-import com.example.githubuser.service.GitHubApiService.Companion.getService
+import com.example.githubuser.service.ContentProviderLiveData
+import com.example.githubuser.service.FavoriteProvider.Companion.USERS_FAVORITE_URI
+import com.example.githubuser.service.GitHubApiService.Companion.getInstance
 import com.example.githubuser.service.Status
+import com.example.githubuser.util.toContentValues
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,7 +25,7 @@ class UserDetailViewModel : ViewModel() {
 
     fun getUserDetail(username: String) {
         viewModelScope.launch {
-            val call = getService().getUser(username)
+            val call = getInstance().getUser(username)
             call.enqueue(object : Callback<UserDetail> {
                 override fun onResponse(
                     call: Call<UserDetail>,
@@ -35,6 +42,46 @@ class UserDetailViewModel : ViewModel() {
                     _user.postValue(Status.error(null, user.value?.data))
                 }
             })
+        }
+    }
+
+    fun setFavorite(context: Context, username: String, isFavorite: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            user.value?.data?.let { it ->
+                val user =
+                    User(
+                        username = it.username,
+                        type = it.type,
+                        avatarUrl = it.avatarUrl
+                    )
+                if (isFavorite) {
+                    context.contentResolver.insert(USERS_FAVORITE_URI, user.toContentValues())
+                } else {
+                    context.contentResolver.delete(
+                        "$USERS_FAVORITE_URI/${username}".toUri(),
+                        null,
+                        null
+                    )
+                }
+            }
+        }
+    }
+
+    fun getIsFavorite(context: Context, username: String): ContentProviderLiveData<Boolean> {
+        return object : ContentProviderLiveData<Boolean>(context, USERS_FAVORITE_URI) {
+            override suspend fun getContentProviderValue(): Boolean {
+                val cursor =
+                    context.contentResolver.query(
+                        "$USERS_FAVORITE_URI/$username".toUri(),
+                        null,
+                        null,
+                        null,
+                        null
+                    )
+                val result = (cursor?.count ?: 0) != 0
+                cursor?.close()
+                return result
+            }
         }
     }
 }

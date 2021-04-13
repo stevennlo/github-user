@@ -9,10 +9,9 @@ import com.example.githubuser.R
 import com.example.githubuser.databinding.ActivityMainBinding
 import com.example.githubuser.util.setupWithNavController
 
-
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
     private var currentNavController: LiveData<NavController>? = null
+    private lateinit var binding: ActivityMainBinding
 
     private val destinationChangedListener =
         NavController.OnDestinationChangedListener { _, destination, _ ->
@@ -28,8 +27,14 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.Theme_App)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        if (savedInstanceState == null) {
+            setupBottomNavigationBar()
+        }
         setContentView(binding.root)
+    }
 
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
         setupBottomNavigationBar()
     }
 
@@ -41,27 +46,14 @@ class MainActivity : AppCompatActivity() {
             navGraphIds = navGraphIds,
             fragmentManager = supportFragmentManager,
             containerId = R.id.nav_host_fragment,
-            intent = intent
+            intent = intent,
+            destinationChangedListener = destinationChangedListener
         )
 
-        controller.observe(this, { navController ->
-            setupActionBarWithNavController(navController)
-        })
+        controller.observeForever {
+            setupActionBarWithNavController(it)
+        }
         currentNavController = controller
-    }
-
-    override fun onResume() {
-        super.onResume()
-        currentNavController?.value?.apply {
-            addOnDestinationChangedListener(destinationChangedListener)
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        currentNavController?.value?.apply {
-            removeOnDestinationChangedListener(destinationChangedListener)
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

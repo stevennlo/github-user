@@ -16,6 +16,7 @@
         <!-- Customize your theme here. -->
         <item name="secondaryColorOnPrimary">@color/secondaryTextOnPrimary</item>
         <item name="secondaryColorOnSurface">@color/secondaryTextOnSurface</item>
+        <item name="favoriteColorSurface">@color/red</item>
     </style>
 
     <style name="Theme.Splash" parent="Theme.AppCompat.NoActionBar">
@@ -24,5 +25,10 @@
 
     <style name="ShapeAppearance.ShapeableImageView.Circular" parent="ShapeAppearance.MaterialComponents">
         <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ThemeOverlay.GitHubUser.AppWidgetContainer" parent="">
+        <item name="appWidgetBackgroundColor">@color/primaryColor</item>
+        <item name="appWidgetTextColor">@color/textIconColor</item>
     </style>
 </resources>

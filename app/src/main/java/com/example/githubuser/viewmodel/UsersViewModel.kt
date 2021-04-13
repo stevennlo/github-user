@@ -1,11 +1,15 @@
 package com.example.githubuser.viewmodel
 
+import android.content.Context
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.githubuser.model.ResponseSearchUsers
 import com.example.githubuser.model.User
+import com.example.githubuser.service.ContentProviderLiveData
+import com.example.githubuser.service.FavoriteProvider
 import com.example.githubuser.service.GitHubApiService
 import com.example.githubuser.service.Status
 import kotlinx.coroutines.launch
@@ -22,7 +26,7 @@ class UsersViewModel : ViewModel() {
     fun searchUser(keyword: String) {
         viewModelScope.launch {
             _keyword.postValue(keyword)
-            val call = GitHubApiService.getService().getSearchUsers(keyword)
+            val call = GitHubApiService.getInstance().getSearchUsers(keyword)
             call.enqueue(object : Callback<ResponseSearchUsers> {
                 override fun onResponse(
                     call: Call<ResponseSearchUsers>,
@@ -42,6 +46,27 @@ class UsersViewModel : ViewModel() {
                     _users.postValue(Status.error(null, users.value?.data))
                 }
             })
+        }
+    }
+
+    fun getIsFavorite(context: Context, username: String): ContentProviderLiveData<Boolean> {
+        return object : ContentProviderLiveData<Boolean>(
+            context,
+            FavoriteProvider.USERS_FAVORITE_URI
+        ) {
+            override suspend fun getContentProviderValue(): Boolean {
+                val cursor =
+                    context.contentResolver.query(
+                        "${FavoriteProvider.USERS_FAVORITE_URI}/$username".toUri(),
+                        null,
+                        null,
+                        null,
+                        null
+                    )
+                val result = (cursor?.count ?: 0) != 0
+                cursor?.close()
+                return result
+            }
         }
     }
 }

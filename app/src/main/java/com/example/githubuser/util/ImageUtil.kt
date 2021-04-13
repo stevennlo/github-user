@@ -1,6 +1,7 @@
 package com.example.githubuser.util
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.core.content.res.ResourcesCompat
@@ -23,5 +24,19 @@ object ImageUtil {
             .fallback(defaultResourceId)
             .centerCrop()
             .into(imageView)
+    }
+
+    fun loadImageToBitmap(
+        context: Context,
+        imageUrl: String?,
+        defaultResourceId: Int,
+    ): Bitmap {
+        return Glide.with(context)
+            .asBitmap()
+            .load(imageUrl)
+            .error(defaultResourceId)
+            .fallback(defaultResourceId)
+            .submit()
+            .get()
     }
 }

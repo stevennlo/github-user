@@ -27,4 +27,8 @@
     <string name="default_notification_title">Notification Title</string>
     <string name="default_notification_message">Notification Message</string>
     <string name="daily_reminder_message">Come on! Time to find out someone in Github User!</string>
+    <string name="favorite_icon">Favorite Icon</string>
+    <string name="daily_reminder_title">Daily reminder</string>
+    <string name="daily_reminder_description">Remind daily at 09.00 AM</string>
+    <string name="profile_picture">Profile Picture</string>
 </resources>

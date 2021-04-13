@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.githubuser.model.Repository
-import com.example.githubuser.service.GitHubApiService.Companion.getService
+import com.example.githubuser.service.GitHubApiService.Companion.getInstance
 import com.example.githubuser.service.Status
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -18,7 +18,7 @@ class RepositoryTabViewModel : ViewModel() {
 
     fun getUserRepos(username: String) {
         viewModelScope.launch {
-            val call = getService().getUserRepos(username)
+            val call = getInstance().getUserRepos(username)
             call.enqueue(object : Callback<List<Repository>?> {
                 override fun onResponse(
                     call: Call<List<Repository>?>,

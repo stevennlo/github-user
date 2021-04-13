@@ -2,4 +2,9 @@
 <resources>
     <attr name="secondaryColorOnPrimary" format="reference" />
     <attr name="secondaryColorOnSurface" format="reference" />
+    <attr name="favoriteColorSurface" format="reference" />
+    <declare-styleable name="AppWidgetAttrs">
+        <attr name="appWidgetBackgroundColor" format="color" />
+        <attr name="appWidgetTextColor" format="color" />
+    </declare-styleable>
 </resources>
