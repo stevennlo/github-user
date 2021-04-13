@@ -24,7 +24,7 @@ interface GitHubApiService {
         fun getInstance(): GitHubApiService {
             val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             val okHttp = OkHttpClient.Builder()
-                .addInterceptor(TokenInterceptor(GITHUB_API_ACCESS_TOKEN))
+//                .addInterceptor(TokenInterceptor(GITHUB_API_ACCESS_TOKEN))
                 .addInterceptor(logger)
                 .build()
             val contentType = "application/json".toMediaType()

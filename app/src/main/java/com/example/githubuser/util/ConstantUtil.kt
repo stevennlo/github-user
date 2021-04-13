@@ -3,7 +3,7 @@ package com.example.githubuser.util
 import com.example.githubuser.BuildConfig
 
 const val BASE_GITHUB_API_URL = "https://api.github.com/"
-const val GITHUB_API_ACCESS_TOKEN = "c617db263726293d46f2a079bf2251399c8d9aa9"
+const val GITHUB_API_ACCESS_TOKEN = ""
 
 const val DEFAULT_REQUEST_CODE = 0
 

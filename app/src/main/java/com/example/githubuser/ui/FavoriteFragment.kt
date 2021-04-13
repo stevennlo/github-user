@@ -55,7 +55,10 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteB
         findNavController().navigate(toUserDetailFragment)
     }
 
-    private fun isFavoriteUser(username: String, favoriteIcon: ImageView) {
+    private fun isFavoriteUser(
+        @Suppress("UNUSED_PARAMETER") username: String,
+        favoriteIcon: ImageView
+    ) {
         favoriteIcon.isVisible = true
     }
 
